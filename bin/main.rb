@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-# rubocop:disable Style/ClassVars, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+# rubocop:disable Style/ClassVars, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Style/GuardClause
 
 class TicTacToe
   # build $memory = new array for(9, " ")
@@ -8,6 +8,11 @@ class TicTacToe
   @@memmory = Array.new(9, ' ')
   (1..9).each do |i|
     @@memmory[i - 1] = i
+  end
+
+  @@player_board = Array.new(9, ' ')
+  (1..9).each do |i|
+    @@player_board[i - 1] = ' '
   end
 
   @@player = [{ name: '', symbol: 'X', score: 0 },
@@ -20,6 +25,13 @@ class TicTacToe
     | #{@@memmory[3]} | #{@@memmory[4]} | #{@@memmory[5]} |
     -------------
     | #{@@memmory[6]} | #{@@memmory[7]} | #{@@memmory[8]} |\n
+    "
+    puts "
+    | #{@@player_board[0]} | #{@@player_board[1]} | #{@@player_board[2]} |
+    -------------
+    | #{@@player_board[3]} | #{@@player_board[4]} | #{@@player_board[5]} |
+    -------------
+    | #{@@player_board[6]} | #{@@player_board[7]} | #{@@player_board[8]} |\n
     "
   end
 
@@ -57,7 +69,7 @@ class TicTacToe
     if !@@location.to_i.between?(1, 9)
       puts 'ERROR: Please enter number between 1-9'
       @@error_input = true
-    elsif !@@memmory[@@location.to_i - 1].is_a?(Integer)
+    elsif @@memmory[@@location.to_i - 1] == ' '
       puts 'ERROR: Position taken, try again.'
       @@error_input = true
     end
@@ -66,28 +78,28 @@ class TicTacToe
 
   def board_update
     unless @@error_input
-    @@memmory[@@location.to_i - 1] = @@current_player[:symbol]
+      @@memmory[@@location.to_i - 1] = ' '
+      @@player_board[@@location.to_i - 1] = @@current_player[:symbol]
     end
   end
 
   def switch_player
     unless @@error_input
-    @@current_player = @@current_player == @@player.first ? @@player.last : @@player.first
+      @@current_player = @@current_player == @@player.first ? @@player.last : @@player.first
     end
   end
 
   def win_check
     @@winner_check = false
-    if [@@memmory[0], @@memmory[1], @@memmory[2]].uniq.join == @@current_player[:symbol] ||
-       [@@memmory[3], @@memmory[4], @@memmory[5]].uniq.join == @@current_player[:symbol] ||
-       [@@memmory[6], @@memmory[7], @@memmory[8]].uniq.join == @@current_player[:symbol] ||
-       [@@memmory[0], @@memmory[3], @@memmory[6]].uniq.join == @@current_player[:symbol] ||
-       [@@memmory[1], @@memmory[4], @@memmory[7]].uniq.join == @@current_player[:symbol] ||
-       [@@memmory[2], @@memmory[5], @@memmory[8]].uniq.join == @@current_player[:symbol] ||
-       [@@memmory[0], @@memmory[4], @@memmory[8]].uniq.join == @@current_player[:symbol] ||
-       [@@memmory[6], @@memmory[4], @@memmory[2]].uniq.join == @@current_player[:symbol]
+    if [@@player_board[0], @@player_board[1], @@player_board[2]].uniq.join == @@current_player[:symbol] ||
+       [@@player_board[3], @@player_board[4], @@player_board[5]].uniq.join == @@current_player[:symbol] ||
+       [@@player_board[6], @@player_board[7], @@player_board[8]].uniq.join == @@current_player[:symbol] ||
+       [@@player_board[0], @@player_board[3], @@player_board[6]].uniq.join == @@current_player[:symbol] ||
+       [@@player_board[1], @@player_board[4], @@player_board[7]].uniq.join == @@current_player[:symbol] ||
+       [@@player_board[2], @@player_board[5], @@player_board[8]].uniq.join == @@current_player[:symbol] ||
+       [@@player_board[0], @@player_board[4], @@player_board[8]].uniq.join == @@current_player[:symbol] ||
+       [@@player_board[6], @@player_board[4], @@player_board[2]].uniq.join == @@current_player[:symbol]
       @@winner_check = true
-      puts 'There is a winner'
     end
     @@winner_check
   end
@@ -97,23 +109,27 @@ class TicTacToe
   end
 
   def tic_tac_toe
+    # While @@memmory.any?(Integers) -- test when the game ends (replace .times do)
     9.times do
-      if self.win_check == false && self.memmory_check == true
-      #unless self.memmory_check && !self.win_check
-      self.player_input
-      self.board_update
-      self.display_board
-      self.switch_player
+      win_check
+      memmory_check
+     if win_check == false && memmory_check == true
+      # unless self.memmory_check && !self.win_check
+      player_input
+      board_update
+      display_board
+      switch_player
+       elsif @@winner_check == true 
+      puts "Congratulations #{@@current_player[:name]} : YOU WON!!!!!"
       end
     end
   end
 
 end
-
-
 game = TicTacToe.new
 game.input_player_name
 game.coin_flipper
+game.display_board
 game.tic_tac_toe
 # 9.times do
 #   game.player_input
@@ -122,4 +138,4 @@ game.tic_tac_toe
 #   game.display_board
 # end
 
-# rubocop:enable Style/ClassVars, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+# rubocop:enable Style/ClassVars, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Style/GuardClause
