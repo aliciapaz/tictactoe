@@ -50,19 +50,30 @@ class TicTacToe
   end
 
   def player_input
+    puts @@current_player[:name]
     puts 'Please input number between (1-9)'
     @@location = gets.chomp
-    puts 'ERROR: Please enter number between 1-9' unless @@location.to_i.between?(1, 9)
-
-    puts 'ERROR: Position taken, try again.' unless @@memmory[@@location.to_i - 1].is_a?(Integer)
+    @@error_input = false
+    if !@@location.to_i.between?(1, 9)
+      puts 'ERROR: Please enter number between 1-9'
+      @@error_input = true
+    elsif !@@memmory[@@location.to_i - 1].is_a?(Integer)
+      puts 'ERROR: Position taken, try again.'
+      @@error_input = true
+    end
+    @@error_input
   end
 
   def board_update
+    unless @@error_input
     @@memmory[@@location.to_i - 1] = @@current_player[:symbol]
+    end
   end
 
   def switch_player
+    unless @@error_input
     @@current_player = @@current_player == @@player.first ? @@player.last : @@player.first
+    end
   end
 
   def win_check
@@ -85,25 +96,30 @@ class TicTacToe
     @@memmory.any?(Integer)
   end
 
-  #   def tic_tac_toe
-  #     9.times do
-  #       next unless game.memmory_check && !game.win_check
+  def tic_tac_toe
+    9.times do
+      if self.win_check == false && self.memmory_check == true
+      #unless self.memmory_check && !self.win_check
+      self.player_input
+      self.board_update
+      self.display_board
+      self.switch_player
+      end
+    end
+  end
 
-  #       game.player_input
-  #       game.board_update(i)
-  #       game.display_board
-  #     end
-  #   end
 end
+
 
 game = TicTacToe.new
 game.input_player_name
 game.coin_flipper
-9.times do
-  game.player_input
-  game.switch_player
-  game.board_update
-  game.display_board
-end
+game.tic_tac_toe
+# 9.times do
+#   game.player_input
+#   game.switch_player
+#   game.board_update
+#   game.display_board
+# end
 
 # rubocop:enable Style/ClassVars, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
