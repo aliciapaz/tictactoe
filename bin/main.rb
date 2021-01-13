@@ -13,9 +13,9 @@ class TicTacToe
 
 # build $memory = new array for(9, " ") 
 
-    @@memory = Array.new(9," ")
+    @@memmory = Array.new(9," ")
   for i in 1..9 do
-    @@memory[i-1] = i
+    @@memmory[i-1] = i
   end
 
    @@player = [{:name=>'',:symbol => 'X',:score =>0 },
@@ -24,11 +24,11 @@ class TicTacToe
 
    def display_board
     puts game_display = "
-    | #{@@memory[0]} | #{@@memory[1]} | #{@@memory[2]} |
+    | #{@@memmory[0]} | #{@@memmory[1]} | #{@@memmory[2]} |
     -------------
-    | #{@@memory[3]} | #{@@memory[4]} | #{@@memory[5]} |
+    | #{@@memmory[3]} | #{@@memmory[4]} | #{@@memmory[5]} |
     -------------
-    | #{@@memory[6]} | #{@@memory[7]} | #{@@memory[8]} |\n
+    | #{@@memmory[6]} | #{@@memmory[7]} | #{@@memmory[8]} |\n
     "
   end 
 
@@ -44,31 +44,50 @@ class TicTacToe
 end
 
 # Coin Flipper to determine what player goes first
-  
-  
-    def coin_flipper
+  def coin_flipper
     @@randome_number =  rand(1..100)
     puts "Flipping Coin"
     puts "............."
     puts "............."
     puts "............."
-   if @@randome_number.even?  
-     puts "#{@@player[0][:name]} Starts First" 
-    
-   else puts "#{@@player[1][:name]} Starts First" 
+      if @@randome_number.even?  
+           puts "#{@@player[0][:name]} Starts First" 
+      else puts "#{@@player[1][:name]} Starts First" 
            @@player.reverse!
+      end
    end
+
+  def player_input 
+      puts "Please input number between (1-9)"
+      @@location = gets.chomp
+      unless @@location.to_i.between?(1,9)
+        puts "ERROR: Please enter number between 1-9"
+      end
+  end
+
+
+   def board_update
+       @@memmory[@@location.to_i - 1] = @@player[0][:symbol]      
+    end
    
-   end
+    def switch_player
 
-
-    # Find which player goies first
-    # Input memory number to display player symbol
-  
+      
+       #  if player[i] input @@location 
+              #  if memmory not full 
+              #   Or if there is a winner
+              #  update board 
+              # display updated board
+        #  Switch to player[i+1] iput @@location
+   
+   
+      end
 
 end
 
 game = TicTacToe.new()
 game.input_player_name
 game.coin_flipper
-# game.display_board
+game.player_input
+game.board_update
+game.display_board
