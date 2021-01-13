@@ -9,13 +9,13 @@
 class TicTacToe
   # build $memory = new array for(9, " ")
 
-  @@memmory = Array.new(9, " ")
-  for i in 1..9 do
+  @@memmory = Array.new(9, ' ')
+  (1..9).each do |i|
     @@memmory[i - 1] = i
   end
 
-  @@player = [{ :name => '', :symbol => 'X', :score => 0 },
-              { :name => '', :symbol => "O", :score => 0 }]
+  @@player = [{ name: '', symbol: 'X', score: 0 },
+              { name: '', symbol: 'O', score: 0 }]
 
   def display_board
     puts game_display = "
@@ -29,7 +29,7 @@ class TicTacToe
 
   # INPUT Players name (@@player[i])
   def input_player_name
-    puts "Please Enter Name Here: "
+    puts 'Please Enter Name Here: '
     @@player.size.times do |i|
       puts "Player #{i + 1} what is your name: "
       @@player[i][:name] = gets.chomp
@@ -40,24 +40,27 @@ class TicTacToe
   # Coin Flipper to determine what player goes first
   def coin_flipper
     @@randome_number = rand(1..100)
-    puts "Flipping Coin"
-    puts "............."
-    puts "............."
-    puts "............."
+    puts 'Flipping Coin'
+    puts '.............'
+    puts '.............'
+    puts '.............'
     if @@randome_number.even?
       puts "#{@@player[0][:name]} Starts First"
-    else puts "#{@@player[1][:name]} Starts First"
-         @@player.reverse!
+    else
+      puts "#{@@player[1][:name]} Starts First"
+      @@player.reverse!
     end
     @@current_player = @@player[0]
   end
 
   def player_input
-    puts "Please input number between (1-9)"
+    puts 'Please input number between (1-9)'
     @@location = gets.chomp
-    unless @@location.to_i.between?(1, 9)
-      puts "ERROR: Please enter number between 1-9"
-    end
+    puts 'ERROR: Please enter number between 1-9' unless @@location.to_i.between?(1, 9)
+    
+    puts "ERROR: Position taken, try again."  unless @@memmory[(@@location.to_i) -1].is_a?(Integer)
+    
+
   end
 
   def board_update
@@ -65,7 +68,7 @@ class TicTacToe
   end
 
   def switch_player
-    @@current_player = (@@current_player == @@player.first) ? @@player.last : @@player.first
+    @@current_player = @@current_player == @@player.first ? @@player.last : @@player.first
   end
 
   def win_check
@@ -79,7 +82,7 @@ class TicTacToe
        [@@memmory[0], @@memmory[4], @@memmory[8]].uniq.join == @@current_player[:symbol] ||
        [@@memmory[6], @@memmory[4], @@memmory[2]].uniq.join == @@current_player[:symbol] ||
        @@winner_check = true
-      puts "There is a winner"
+      puts 'There is a winner'
     end
     @@winner_check
   end
@@ -88,20 +91,24 @@ class TicTacToe
     @@memmory.any?(Integer)
   end
 
-  def tic_tac_toe
-    9.times do
-      if game.memmory_check && !game.win_check
-        game.player_input
-        game.board_update(i)
-        game.display_board
-      end
-    end
-  end
-end
+#   def tic_tac_toe
+#     9.times do
+#       next unless game.memmory_check && !game.win_check
 
-game = TicTacToe.new()
+#       game.player_input
+#       game.board_update(i)
+#       game.display_board
+#     end
+#   end
+ end
+
+
+game = TicTacToe.new
 game.input_player_name
 game.coin_flipper
+9.times do
 game.player_input
+game.switch_player
 game.board_update
 game.display_board
+end
