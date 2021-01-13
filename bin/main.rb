@@ -11,22 +11,64 @@
 class TicTacToe 
     
 
-    def initialize(play_one, player_two)
-    @player_one = player_one
-    @player_two = player_two
-    end
+# build $memory = new array for(9, " ") 
 
-    player = {:player_one => O,  :player_two => X}
-    
-    board_memmory = [0..8]
-    
+    @@memory = Array.new(9," ")
+  for i in 1..9 do
+    @@memory[i-1] = i
+  end
 
-     
-    def display_board
-     puts   board_memmory[0]
+   @@player = [{:name=>'',:symbol => 'X',:score =>0 },
+             {:name =>'', :symbol => "O", :score =>0}
+  ]
+
+   def display_board
+    puts game_display = "
+    | #{@@memory[0]} | #{@@memory[1]} | #{@@memory[2]} |
+    -------------
+    | #{@@memory[3]} | #{@@memory[4]} | #{@@memory[5]} |
+    -------------
+    | #{@@memory[6]} | #{@@memory[7]} | #{@@memory[8]} |\n
+    "
+  end 
+
+
+  # INPUT Players name (@@player[i])
+  def input_player_name
+    puts "Please Enter Name Here: "
+    @@player.size.times do |i|  
+     puts "Player #{i+1} what is your name: " 
+     @@player[i][:name] = gets.chomp
+     puts "Player #{i+1} name: #{@@player[i][:name]} "
     end
+end
+
+# Coin Flipper to determine what player goes first
+  
+  
+    def coin_flipper
+    @@randome_number =  rand(1..100)
+    puts "Flipping Coin"
+    puts "............."
+    puts "............."
+    puts "............."
+   if @@randome_number.even?  
+     puts "#{@@player[0][:name]} Starts First" 
+    
+   else puts "#{@@player[1][:name]} Starts First" 
+           @@player.reverse!
+   end
+   
+   end
+
+
+    # Find which player goies first
+    # Input memory number to display player symbol
+  
 
 end
 
-game = TicTacToe.new(player_one, player_two)
-game.display_board
+game = TicTacToe.new()
+game.input_player_name
+game.coin_flipper
+# game.display_board
