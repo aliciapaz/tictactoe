@@ -83,7 +83,7 @@ end
     if !@@location.to_i.between?(1, 9)
       puts 'ERROR: Please enter number between 1-9'
       @error_input = true
-    elsif board_info.memory[@@location.to_i - 1] == ' '
+    elsif board.memory[@@location.to_i - 1] == ' '
       puts 'ERROR: Position taken, try again.'
       @error_input = true
     end
@@ -92,8 +92,8 @@ end
 
   def board_update
     unless @error_input
-      board_info.memory[@@location.to_i - 1] = ' '
-      board_info.player_board[@@location.to_i - 1] = @@current_player[:symbol]
+      board.memory[@@location.to_i - 1] = ' '
+      board.player_board[@@location.to_i - 1] = @@current_player[:symbol]
     end
   end
 
