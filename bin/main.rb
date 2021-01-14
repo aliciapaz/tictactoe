@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
 
-# rubocop:disable Style/ClassVars, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Style/GuardClause
+
+# rubocop:disable Style/ClassVars, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Style/GuardClause, Metrics/AbcSize
+
+
 
 class TicTacToe
   # build $memory = new array for(9, " ")
@@ -29,7 +32,7 @@ class TicTacToe
     puts "
     | #{@@player_board[0]} | #{@@player_board[1]} | #{@@player_board[2]} |
     -------------
-    | #{@@player_board[3]} | #{@@player_board[4]} | #{@@player_board[5]} |
+    | #{@@player_        both modified:   bin/main.rbboard[3]} | #{@@player_board[4]} | #{@@player_board[5]} |
     -------------
     | #{@@player_board[6]} | #{@@player_board[7]} | #{@@player_board[8]} |\n
     "
@@ -100,24 +103,24 @@ class TicTacToe
        [@@player_board[0], @@player_board[4], @@player_board[8]].uniq.join == @@current_player[:symbol] ||
        [@@player_board[6], @@player_board[4], @@player_board[2]].uniq.join == @@current_player[:symbol]
       @@winner_check = true
-      puts 'There is a winner'
     end
     @@winner_check
   end
 
-  def memmory_check
-    @@memmory.any?(Integer)
-  end
-
   def tic_tac_toe
-    9.times do
-      next unless win_check == false && memmory_check == true
-
-      # unless self.memmory_check && !self.win_check
+    while @@memmory.any?(Integer) && !win_check
       player_input
       board_update
+      win_check
+      if win_check
+        display_board
+        puts "Congratulations #{@@current_player[:name]} : YOU WON!!!!!"
+        break
+      end
       display_board
       switch_player
+
+
     end
   end
 end
@@ -127,11 +130,6 @@ game.input_player_name
 game.coin_flipper
 game.display_board
 game.tic_tac_toe
-# 9.times do
-#   game.player_input
-#   game.switch_player
-#   game.board_update
-#   game.display_board
-# end
 
-# rubocop:enable Style/ClassVars, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Style/GuardClause
+# rubocop:enable Style/ClassVars, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Style/GuardClause, Metrics/AbcSize
+
