@@ -1,11 +1,14 @@
-require "./bin/main.rb"
+# require "./bin/main.rb"
 
 
-class PlayerInfo
+class PlayerInfo 
 
-    
+    attr_accessor :player
+
+    def initialize
+    @player = [{ name: '', symbol: 'X', score: 0 },
+        { name: '', symbol: 'O', score: 0 }]
+    end 
 
 end
 
-player = PlayerInfo.new
-player.coin_flipper

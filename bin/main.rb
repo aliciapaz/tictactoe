@@ -2,16 +2,18 @@
 # require_relative "board_info"
 #  require_relative 'board_info'
  require "./lib/board_info.rb"
+ require "./lib/player_info.rb"
 
 # rubocop:disable Style/ClassVars, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Style/GuardClause, Metrics/AbcSize
 
 class TicTacToe
   # build $memory = new array for(9, " ")
-  attr_accessor :board 
+  attr_accessor :board, :player
   
   
-  def initialize(my_board)
+  def initialize(my_board, my_player)
     self.board = my_board
+    self.player = my_player
   end
 
 def board_memory
@@ -19,13 +21,17 @@ def board_memory
 end
 
 def player_board
-   board.player_board
+  board.player_board
 end
 
 
-  @@player = [{ name: '', symbol: 'X', score: 0 },
-              { name: '', symbol: 'O', score: 0 }]
+def player_info
+  player.player
+end
 
+
+
+ 
   def display_board
     puts "
     | #{board.memory[0]} | #{board.memory[1]} | #{board.memory[2]} |
@@ -43,13 +49,13 @@ end
     "
   end
 
-  # INPUT Players name (@@player[i])
+  # INPUT Players name (player.player[i])
   def input_player_name
     puts 'Please Enter Name Here: '
-    @@player.size.times do |i|
+    player.player.size.times do |i|
       puts "Player #{i + 1} what is your name: "
-      @@player[i][:name] = gets.chomp
-      puts "Player #{i + 1} name: #{@@player[i][:name]} "
+      player.player[i][:name] = gets.chomp
+      puts "Player #{i + 1} name: #{player.player[i][:name]} "
     end
   end
 
@@ -61,12 +67,12 @@ end
     puts '.............'
     puts '.............'
     if @@randome_number.even?
-      puts "#{@@player[0][:name]} Starts First"
+      puts "#{player.player[0][:name]} Starts First"
     else
-      puts "#{@@player[1][:name]} Starts First"
-      @@player.reverse!
+      puts "#{player.player[1][:name]} Starts First"
+      player.player.reverse!
     end
-    @@current_player = @@player[0]
+    @@current_player = player.player[0]
   end
 
   def player_input
@@ -93,27 +99,27 @@ end
 
   def switch_player
     unless @error_input
-      @@current_player = @@current_player == @@player.first ? @@player.last : @@player.first
+      @@current_player = @@current_player == player.player.first ? player.player.last : player.player.first
     end
   end
 
   def win_check
     @@winner_check = false
-    if [board_info.player_board[0], board_info.player_board[1], board_info.player_board[2]].uniq.join == @@current_player[:symbol] ||
-       [board_info.player_board[3], board_info.player_board[4], board_info.player_board[5]].uniq.join == @@current_player[:symbol] ||
-       [board_info.player_board[6], board_info.player_board[7], board_info.player_board[8]].uniq.join == @@current_player[:symbol] ||
-       [board_info.player_board[0], board_info.player_board[3], board_info.player_board[6]].uniq.join == @@current_player[:symbol] ||
-       [board_info.player_board[1], board_info.player_board[4], board_info.player_board[7]].uniq.join == @@current_player[:symbol] ||
-       [board_info.player_board[2], board_info.player_board[5], board_info.player_board[8]].uniq.join == @@current_player[:symbol] ||
-       [board_info.player_board[0], board_info.player_board[4], board_info.player_board[8]].uniq.join == @@current_player[:symbol] ||
-       [board_info.player_board[6], board_info.player_board[4], board_info.player_board[2]].uniq.join == @@current_player[:symbol]
+    if [board.player_board[0], board.player_board[1], board.player_board[2]].uniq.join == @@current_player[:symbol] ||
+       [board.player_board[3], board.player_board[4], board.player_board[5]].uniq.join == @@current_player[:symbol] ||
+       [board.player_board[6], board.player_board[7], board.player_board[8]].uniq.join == @@current_player[:symbol] ||
+       [board.player_board[0], board.player_board[3], board.player_board[6]].uniq.join == @@current_player[:symbol] ||
+       [board.player_board[1], board.player_board[4], board.player_board[7]].uniq.join == @@current_player[:symbol] ||
+       [board.player_board[2], board.player_board[5], board.player_board[8]].uniq.join == @@current_player[:symbol] ||
+       [board.player_board[0], board.player_board[4], board.player_board[8]].uniq.join == @@current_player[:symbol] ||
+       [board.player_board[6], board.player_board[4], board.player_board[2]].uniq.join == @@current_player[:symbol]
       @@winner_check = true
     end
     @@winner_check
   end
 
   def tic_tac_toe
-    while board_info.memory.any?(Integer) && !win_check
+    while board.memory.any?(Integer) && !win_check
       player_input
       board_update
       win_check
@@ -130,10 +136,10 @@ end
 end
 
 board_info = BoardInfo.new
+player_info = PlayerInfo.new
 
 
-
-game = TicTacToe.new(board_info)
+game = TicTacToe.new(board_info, player_info)
 game.input_player_name
 game.coin_flipper
 game.display_board

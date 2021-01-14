@@ -20,12 +20,12 @@ class BoardInfo
   end
 
 
-  def self.board_update
-    unless @@error_input
-      @@memory[@@location.to_i - 1] = ' '
-      @@player_board[@@location.to_i - 1] = @@current_player[:symbol]
-    end
-  end
+  # def board_update
+  #   unless @@error_input
+  #     @@memory[@@location.to_i - 1] = ' '
+  #     @@player_board[@@location.to_i - 1] = @@current_player[:symbol]
+  #   end
+  # end
 
 end
 
