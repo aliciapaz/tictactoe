@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
 
+
 # rubocop:disable Style/ClassVars, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Style/GuardClause, Metrics/AbcSize
+
+
 
 class TicTacToe
   # build $memory = new array for(9, " ")
@@ -29,7 +32,7 @@ class TicTacToe
     puts "
     | #{@@player_board[0]} | #{@@player_board[1]} | #{@@player_board[2]} |
     -------------
-    | #{@@player_board[3]} | #{@@player_board[4]} | #{@@player_board[5]} |
+    | #{@@player_        both modified:   bin/main.rbboard[3]} | #{@@player_board[4]} | #{@@player_board[5]} |
     -------------
     | #{@@player_board[6]} | #{@@player_board[7]} | #{@@player_board[8]} |\n
     "
@@ -117,6 +120,7 @@ class TicTacToe
       display_board
       switch_player
 
+
     end
   end
 end
@@ -128,3 +132,4 @@ game.display_board
 game.tic_tac_toe
 
 # rubocop:enable Style/ClassVars, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Style/GuardClause, Metrics/AbcSize
+
