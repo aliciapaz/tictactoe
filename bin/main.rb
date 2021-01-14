@@ -1,37 +1,29 @@
 #!/usr/bin/env ruby
-# require_relative "board_info"
-#  require_relative 'board_info'
- require "./lib/board_info.rb"
- require "./lib/player_info.rb"
+require './lib/board_info'
+require './lib/player_info'
 
 # rubocop:disable Style/ClassVars, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Style/GuardClause, Metrics/AbcSize
 
 class TicTacToe
-  # build $memory = new array for(9, " ")
   attr_accessor :board, :player
-  
-  
+
   def initialize(my_board, my_player)
     self.board = my_board
     self.player = my_player
   end
 
-def board_memory
-      board.memory
-end
+  def board_memory
+    board.memory
+  end
 
-def player_board
-  board.player_board
-end
+  def player_board
+    board.player_board
+  end
 
+  def player_info
+    player.player
+  end
 
-def player_info
-  player.player
-end
-
-
-
- 
   def display_board
     puts "
     | #{board.memory[0]} | #{board.memory[1]} | #{board.memory[2]} |
@@ -137,7 +129,6 @@ end
 
 board_info = BoardInfo.new
 player_info = PlayerInfo.new
-
 
 game = TicTacToe.new(board_info, player_info)
 game.input_player_name
