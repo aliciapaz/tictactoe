@@ -14,6 +14,10 @@ class TicTacToe
     board.player_board
   end
 
+  def board_reset
+    board.board_reset
+  end
+
   def player_info
     player.player
   end

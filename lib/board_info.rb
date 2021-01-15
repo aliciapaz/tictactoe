@@ -11,4 +11,11 @@ class BoardInfo
       @player_board[i - 1] = ' '
     end
   end
+
+  def board_reset
+    (1..9).each do |i|
+      @memory[i - 1] = i
+      @player_board[i - 1] = ' '
+    end
+  end
 end
