@@ -13,6 +13,11 @@ class TicTacToe
   def player_board
     board.player_board
   end
+   
+  def board_reset
+       board.board_reset
+  end
+
 
   def player_info
     player.player
@@ -54,4 +59,6 @@ class TicTacToe
   def win_check
     return true if win_row || win_col || win_diag
   end
+
+
 end
