@@ -1,5 +1,5 @@
 class BoardInfo
-  attr_accessor :memory, :player_board
+  attr_reader :memory, :player_board
 
   def initialize
     @memory = Array.new(9, ' ')

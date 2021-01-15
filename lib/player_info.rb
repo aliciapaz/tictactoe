@@ -1,7 +1,5 @@
-# require "./bin/main.rb"
-
 class PlayerInfo
-  attr_accessor :player
+  attr_reader :player
 
   def initialize
     @player = [{ name: '', symbol: 'X', score: 0 },
