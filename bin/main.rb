@@ -83,6 +83,7 @@ def tic_tac_toe
     if win_check
       display_board
       puts "Congratulations #{@current_player[:name]} : YOU WON!!!!!"
+      @current_player[:score] += 1
       break
     end
     if !win_check && board.memory.none?(Integer)
@@ -92,13 +93,26 @@ def tic_tac_toe
     end
     display_board
     switch_player
-
   end
+  # while restart_game == true
+  #   tic_tac_toe
+  # end
+
+end
+
+def restart_game
+  check_restart = ''
+  puts 'Play again? (y/n)'
+  check_restart = gets.chomp
+  return true if check_restart == 'y'
+  return false if check_restart == 'n'
+  # add condition for error input
 end
 
 game.input_player_name
 game.coin_flipper
 game.display_board
 game.tic_tac_toe
+while game.restart_game == true do game.tic_tac_toe end
 
 # rubocop:enable, Style/GuardClause, Metrics/AbcSize
