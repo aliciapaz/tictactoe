@@ -94,38 +94,30 @@ def tic_tac_toe
     display_board
     switch_player
   end
-
-
 end
 
 def restart_game
-  check_restart = ''
   puts 'Play again? (y/n)'
   check_restart = gets.chomp
-  if check_restart == 'y'
+  case check_restart
+  when 'y'
     board_reset
-  return true 
-  elsif
-     check_restart == 'n'
-     return false
-  
-  else
-    
+    true
+  when 'n'
+    false
+
   end
   # add condition for error input
 end
 
-
 def game_round
   coin_flipper
   display_board
-  tic_tac_toe 
+  tic_tac_toe
 end
-
 
 game.input_player_name
 game.game_round
 while game.restart_game == true do game.game_round end
 
 # rubocop:enable, Style/GuardClause, Metrics/AbcSize
-
