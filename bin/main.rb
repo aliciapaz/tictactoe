@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 
-# rubocop:disable, Style/GuardClause, Metrics/AbcSize
-
 require './lib/board_info'
 require './lib/player_info'
 require './lib/game_logic'
@@ -9,6 +7,8 @@ require './lib/game_logic'
 board_info = BoardInfo.new
 player_info = PlayerInfo.new
 game = TicTacToe.new(board_info, player_info)
+
+# rubocop:disable, Style/GuardClause, Metrics/AbcSize
 
 public
 
@@ -20,6 +20,10 @@ def display_board
   -------------
   | #{board.memory[6]} | #{board.memory[7]} | #{board.memory[8]} |\n
   "
+  display_player_board
+end
+
+def display_player_board
   puts "
   | #{board.player_board[0]} | #{board.player_board[1]} | #{board.player_board[2]} |
   -------------

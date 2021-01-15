@@ -19,16 +19,16 @@ class TicTacToe
   end
 
   def switch_player
-    unless @error_input
-      @current_player = @current_player == player.player.first ? player.player.last : player.player.first
-    end
+    return if @error_input
+
+    @current_player = @current_player == player.player.first ? player.player.last : player.player.first
   end
 
   def board_update
-    unless @error_input
-      board.memory[@location.to_i - 1] = ' '
-      board.player_board[@location.to_i - 1] = @current_player[:symbol]
-    end
+    return if @error_input
+
+    board.memory[@location.to_i - 1] = ' '
+    board.player_board[@location.to_i - 1] = @current_player[:symbol]
   end
 
   def win_row
@@ -54,5 +54,4 @@ class TicTacToe
   def win_check
     return true if win_row || win_col || win_diag
   end
-    
 end
