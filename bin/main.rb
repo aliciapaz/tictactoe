@@ -7,7 +7,7 @@ require './lib/player_info'
 class TicTacToe
   attr_accessor :board, :player
 
-  def initialize(my_board, my_player)
+  def initialize(my_board = nil, my_player = nil)
     self.board = my_board
     self.player = my_player
   end
@@ -118,6 +118,11 @@ class TicTacToe
       if win_check
         display_board
         puts "Congratulations #{@@current_player[:name]} : YOU WON!!!!!"
+        break
+      end
+      if !win_check && board.memory.none?(Integer)
+        display_board
+        puts "It's a tie"
         break
       end
       display_board

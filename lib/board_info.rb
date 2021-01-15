@@ -6,7 +6,6 @@ class BoardInfo
     (1..9).each do |i|
       @memory[i - 1] = i
     end
-
     @player_board = Array.new(9, ' ')
     (1..9).each do |i|
       @player_board[i - 1] = ' '
