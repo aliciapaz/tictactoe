@@ -1,130 +1,123 @@
 #!/usr/bin/env ruby
 
-# rubocop:disable Style/ClassVars, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Style/GuardClause, Metrics/AbcSize
+require './lib/board_info'
+require './lib/player_info'
+require './lib/game_logic'
 
-class TicTacToe
-  # build $memory = new array for(9, " ")
+board_info = BoardInfo.new
+player_info = PlayerInfo.new
+game = TicTacToe.new(board_info, player_info)
 
-  @@memmory = Array.new(9, ' ')
-  (1..9).each do |i|
-    @@memmory[i - 1] = i
-  end
+# rubocop:disable, Style/GuardClause, Metrics/AbcSize
 
-  @@player_board = Array.new(9, ' ')
-  (1..9).each do |i|
-    @@player_board[i - 1] = ' '
-  end
+public
 
-  @@player = [{ name: '', symbol: 'X', score: 0 },
-              { name: '', symbol: 'O', score: 0 }]
+def display_board
+  puts "
+  | #{board.memory[0]} | #{board.memory[1]} | #{board.memory[2]} |
+  -------------
+  | #{board.memory[3]} | #{board.memory[4]} | #{board.memory[5]} |
+  -------------
+  | #{board.memory[6]} | #{board.memory[7]} | #{board.memory[8]} |\n
+  "
+  display_player_board
+end
 
-  def display_board
-    puts "
-    | #{@@memmory[0]} | #{@@memmory[1]} | #{@@memmory[2]} |
-    -------------
-    | #{@@memmory[3]} | #{@@memmory[4]} | #{@@memmory[5]} |
-    -------------
-    | #{@@memmory[6]} | #{@@memmory[7]} | #{@@memmory[8]} |\n
-    "
-    puts "
-    | #{@@player_board[0]} | #{@@player_board[1]} | #{@@player_board[2]} |
-    -------------
-    | #{@@player_board[3]} | #{@@player_board[4]} | #{@@player_board[5]} |
-    -------------
-    | #{@@player_board[6]} | #{@@player_board[7]} | #{@@player_board[8]} |\n
-    "
-  end
+def display_player_board
+  puts "
+  | #{board.player_board[0]} | #{board.player_board[1]} | #{board.player_board[2]} |
+  -------------
+  | #{board.player_board[3]} | #{board.player_board[4]} | #{board.player_board[5]} |
+  -------------
+  | #{board.player_board[6]} | #{board.player_board[7]} | #{board.player_board[8]} |\n
+  "
+end
 
-  # INPUT Players name (@@player[i])
-  def input_player_name
-    puts 'Please Enter Name Here: '
-    @@player.size.times do |i|
-      puts "Player #{i + 1} what is your name: "
-      @@player[i][:name] = gets.chomp
-      puts "Player #{i + 1} name: #{@@player[i][:name]} "
-    end
-  end
+# INPUT Players name
 
-  # Coin Flipper to determine what player goes first
-  def coin_flipper
-    @@randome_number = rand(1..100)
-    puts 'Flipping Coin'
-    puts '.............'
-    puts '.............'
-    puts '.............'
-    if @@randome_number.even?
-      puts "#{@@player[0][:name]} Starts First"
-    else
-      puts "#{@@player[1][:name]} Starts First"
-      @@player.reverse!
-    end
-    @@current_player = @@player[0]
-  end
-
-  def player_input
-    puts @@current_player[:name]
-    puts 'Please input number between (1-9)'
-    @@location = gets.chomp
-    @@error_input = false
-    if !@@location.to_i.between?(1, 9)
-      puts 'ERROR: Please enter number between 1-9'
-      @@error_input = true
-    elsif @@memmory[@@location.to_i - 1] == ' '
-      puts 'ERROR: Position taken, try again.'
-      @@error_input = true
-    end
-    @@error_input
-  end
-
-  def board_update
-    unless @@error_input
-      @@memmory[@@location.to_i - 1] = ' '
-      @@player_board[@@location.to_i - 1] = @@current_player[:symbol]
-    end
-  end
-
-  def switch_player
-    unless @@error_input
-      @@current_player = @@current_player == @@player.first ? @@player.last : @@player.first
-    end
-  end
-
-  def win_check
-    @@winner_check = false
-    if [@@player_board[0], @@player_board[1], @@player_board[2]].uniq.join == @@current_player[:symbol] ||
-       [@@player_board[3], @@player_board[4], @@player_board[5]].uniq.join == @@current_player[:symbol] ||
-       [@@player_board[6], @@player_board[7], @@player_board[8]].uniq.join == @@current_player[:symbol] ||
-       [@@player_board[0], @@player_board[3], @@player_board[6]].uniq.join == @@current_player[:symbol] ||
-       [@@player_board[1], @@player_board[4], @@player_board[7]].uniq.join == @@current_player[:symbol] ||
-       [@@player_board[2], @@player_board[5], @@player_board[8]].uniq.join == @@current_player[:symbol] ||
-       [@@player_board[0], @@player_board[4], @@player_board[8]].uniq.join == @@current_player[:symbol] ||
-       [@@player_board[6], @@player_board[4], @@player_board[2]].uniq.join == @@current_player[:symbol]
-      @@winner_check = true
-    end
-    @@winner_check
-  end
-
-  def tic_tac_toe
-    while @@memmory.any?(Integer) && !win_check
-      player_input
-      board_update
-      win_check
-      if win_check
-        display_board
-        puts "Congratulations #{@@current_player[:name]} : YOU WON!!!!!"
-        break
-      end
-      display_board
-      switch_player
-
-    end
+def input_player_name
+  puts 'Please Enter Name Here: '
+  player.player.size.times do |i|
+    puts "Player #{i + 1} what is your name: "
+    player.player[i][:name] = gets.chomp
+    puts "Player #{i + 1} name: #{player.player[i][:name]} "
   end
 end
 
-game = TicTacToe.new
-game.input_player_name
-game.coin_flipper
-game.display_board
-game.tic_tac_toe
+# Coin Flipper to determine what player goes first
+def coin_flipper
+  randome_number = rand(1..100)
+  puts 'Flipping Coin'
+  puts '.............'
+  puts '.............'
+  puts '.............'
+  if randome_number.even?
+    puts "#{player.player[0][:name]} Starts First"
+  else
+    puts "#{player.player[1][:name]} Starts First"
+    player.player.reverse!
+  end
+  @current_player = player.player[0]
+end
 
-# rubocop:enable Style/ClassVars, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Style/GuardClause, Metrics/AbcSize
+def player_input
+  puts @current_player[:name]
+  puts 'Please input number between (1-9)'
+  @location = gets.chomp
+  @error_input = false
+  if !@location.to_i.between?(1, 9)
+    puts 'ERROR: Please enter number between 1-9'
+    @error_input = true
+  elsif board.memory[@location.to_i - 1] == ' '
+    puts 'ERROR: Position taken, try again. Check available positions:'
+    @error_input = true
+  end
+  @error_input
+end
+
+def tic_tac_toe
+  while board.memory.any?(Integer) && !win_check
+    player_input
+    board_update
+    win_check
+    if win_check
+      display_board
+      puts "Congratulations #{@current_player[:name]} : YOU WON!!!!!"
+      @current_player[:score] += 1
+      break
+    end
+    if !win_check && board.memory.none?(Integer)
+      display_board
+      puts "It's a tie"
+      break
+    end
+    display_board
+    switch_player
+  end
+end
+
+def restart_game
+  puts 'Play again? (y/n)'
+  check_restart = gets.chomp
+  case check_restart
+  when 'y'
+    board_reset
+    true
+  when 'n'
+    false
+
+  end
+  # add condition for error input
+end
+
+def game_round
+  coin_flipper
+  display_board
+  tic_tac_toe
+end
+
+game.input_player_name
+game.game_round
+while game.restart_game == true do game.game_round end
+
+# rubocop:enable, Style/GuardClause, Metrics/AbcSize
